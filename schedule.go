@@ -35,16 +35,31 @@ func InitSchedule(start, end time.Time, c SCycle, w, d int) (res Schedule, err e
 		err = errors.New("end date should after start")
 		return
 	}
-	if d < 1 || w < 0 {
-		err = errors.New("weekIndex and dayIndex invalid")
-	}
-	if c == Weekly && d > 6 {
-		err = errors.New("weekly schedule should have day index <=6")
-	}
-	if c == Monthly {
-		if d > 31 {
-			err = errors.New("monthly schedule should have day index <=31")
+	switch c {
+
+	case Weekly:
+		{
+			if w < 1 || d < 0 || d > 6 {
+				err = errors.New("weekly schedule invalid")
+			}
+			break
 		}
+	case Monthly:
+		{
+			if (w > 0 && (d < 1 || d > 31)) || (w < 1 && (d < 1 || d > 6)) {
+				err = errors.New("monthly schedule invalid")
+			}
+			break
+		}
+	case Daily:
+		{
+			if d < 1 {
+				err = errors.New("daily schedule invalid")
+			}
+			break
+		}
+	default:
+		err = errors.New("invalid schedule recurrence cycle")
 	}
 	if err != nil {
 		return
