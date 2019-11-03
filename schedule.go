@@ -161,7 +161,7 @@ func monthlyAppend(s Schedule) (res []time.Time) {
 	var d time.Time
 	if s.Rule.WeekIndex > 0 {
 		d = m.AddDate(0, 0,
-			7*(s.Rule.WeekIndex-1)+(7+s.Rule.DayIndex-int(s.Period.Start.Weekday()))%7)
+			7*(s.Rule.WeekIndex-1)+(7+s.Rule.DayIndex-int(m.Weekday()))%7)
 	} else {
 		d = m.AddDate(0, 0, s.Rule.DayIndex)
 	}
