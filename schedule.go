@@ -114,7 +114,7 @@ func (c *SChecker) IsScheduledDay(t time.Time, s Schedule) (res bool) {
 
 func monthlyCheck(t time.Time, weekIndex, dayIndex int) (res bool) {
 	if weekIndex < 1 { // If WeekIndex < 1, schedule use the dayIndex-th day of the month
-		res = time.Now().In(t.Location()).Day() == dayIndex
+		res = t.In(t.Location()).Day() == dayIndex
 		return
 	}
 	res = (weekIndex == t.Day()/7 && dayIndex == int(t.Weekday()))
